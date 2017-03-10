@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Number Game</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+body{
+	margin: auto;
+}
+</style>
+<script>
+var fmoney = 1000;
+function play(){
+	var j=0;
+	var k=0;
+	
+	var x =Math.floor(Math.random()*900) + 100;
+	document.getElementById("final").innerHTML = x;
+	
+	var digits = [];
+	while (x > 0) {
+		digits[digits.length] = x % 10;
+		x = parseInt(x / 10);
+	}
+	digits.reverse();
+
+	document.getElementById("msg").innerHTML = "";
+	prevmoney = fmoney;
+	
+	for(var i=0; i<digits.length; i++) {
+		if(digits[i] == digits[i+1] && digits[i+1] == digits[i+2]) {
+			fmoney += 1000;
+			document.getElementById("msg").innerHTML = "You have won 1000 INR as all numbers are same";
+		}
+		
+		//Odd Number
+		else if(digits[i]%2) {
+		j++;
+		if(j==3)
+		{ 
+		fmoney += 300;
+		document.getElementById("msg").innerHTML = "You have won 300 INR as all numbers are Odd";
+		}
+		}
+		
+		//Even Number
+		else if(digits[i]%2 === 0) {
+		k++;
+		if(k==3)
+		{ 
+		fmoney += 300;
+		document.getElementById("msg").innerHTML = "You have won 300 INR as all numbers are Even";		
+		}
+		}
+		
+		//Sequence Number
+		else if(digits[i+1] - digits[i] == 1) {
+			if(digits[i+2] - digits[i+1] == 1) {
+			fmoney += 800;
+			document.getElementById("msg").innerHTML = "You have won 800 INR as numbers are in sequence";
+			}
+		}
+			aftmoney = fmoney;
+	}
+
+	//Not Lucky
+	if(prevmoney == aftmoney) {
+		fmoney -= 100;
+		document.getElementById("msg").innerHTML = "You were not lucky this time";
+	}
+	// Lost
+	if(fmoney <= 0) {
+		alert("You Lost");
+		document.getElementById("final").innerHTML = "";
+		fmoney = 1000;
+		document.getElementById("money").innerHTML = fmoney;
+	}
+
+	document.getElementById("money").innerHTML = fmoney;
+}
+</script>
+</head>
+<body>
+<div class="container" style="text-align:center">
+	<h2> Number Game</h2>
+	<input type="button" class="btn btn-primary" value="Start" id="start" onclick="play()">
+	<br><br>
+	<h3>Total Money = <span id="money">1000</span> INR </h3>
+	<div id="msg" style="color:red"></div><hr>
+	<br><br>
+	<div id="final" style="font-size:70px;"></div>
+</div>
+
+</body>
+</html>
